@@ -5,11 +5,16 @@ CREATE TABLE IF NOT EXISTS raw.themes (
 );
 
 CREATE TABLE IF NOT EXISTS raw.colors (
-    id TEXT, name TEXT, rgb TEXT, is_trans TEXT
+    id TEXT, name TEXT, rgb TEXT, is_trans TEXT, 
+    num_parts TEXT, num_sets TEXT, y1 TEXT, y2 TEXT
 );
 
 CREATE TABLE IF NOT EXISTS raw.part_categories (
     id TEXT, name TEXT
+);
+
+CREATE TABLE IF NOT EXISTS raw.parts (
+    part_num TEXT, name TEXT, part_cat_id TEXT, part_material TEXT
 );
 
 CREATE TABLE IF NOT EXISTS raw.part_relationships (
@@ -17,15 +22,15 @@ CREATE TABLE IF NOT EXISTS raw.part_relationships (
 );
 
 CREATE TABLE IF NOT EXISTS raw.elements (
-    element_id TEXT, part_num TEXT, color_id TEXT
+    element_id TEXT, part_num TEXT, color_id TEXT, design_id TEXT
 );
 
 CREATE TABLE IF NOT EXISTS raw.sets (
-    set_num TEXT, name TEXT, year TEXT, theme_id TEXT, num_parts TEXT
+    set_num TEXT, name TEXT, year TEXT, theme_id TEXT, num_parts TEXT, img_url TEXT
 );
 
 CREATE TABLE IF NOT EXISTS raw.minifigs (
-    fig_num TEXT, name TEXT, num_parts TEXT
+    fig_num TEXT, name TEXT, num_parts TEXT, img_url TEXT
 );
 
 CREATE TABLE IF NOT EXISTS raw.inventories (
@@ -33,7 +38,7 @@ CREATE TABLE IF NOT EXISTS raw.inventories (
 );
 
 CREATE TABLE IF NOT EXISTS raw.inventory_parts (
-    inventory_id TEXT, part_num TEXT, color_id TEXT, quantity TEXT, is_spare TEXT
+    inventory_id TEXT, part_num TEXT, color_id TEXT, quantity TEXT, is_spare TEXT, img_url TEXT
 );
 
 CREATE TABLE IF NOT EXISTS raw.inventory_sets (
