@@ -220,3 +220,7 @@ __marimo__/
 # Project data
 data/*.csv
 data/*.csv.gz
+
+# Mac files
+.DS_Store
+**/.DS_Store
