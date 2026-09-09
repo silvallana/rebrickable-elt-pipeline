@@ -1,0 +1,252 @@
+version: 2
+
+models:
+
+  - name: stg_themes
+    columns:
+      - name: id
+        description: "Unique theme identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: parent_id
+        description: "Parent theme identifier, when applicable."
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_themes')
+                field: id
+
+  - name: stg_colors
+    columns:
+      - name: id
+        description: "Unique color identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: rgb
+        description: "RGB color value represented as a hexadecimal string."
+
+      - name: is_trans
+        description: "Indicates whether the color is transparent."
+
+      - name: first_year
+        description: "First year in which the color appears in the Rebrickable data."
+
+      - name: last_year
+        description: "Last year in which the color appears in the Rebrickable data."
+
+  - name: stg_part_categories
+    columns:
+      - name: id
+        description: "Unique part category identifier."
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_parts
+    columns:
+      - name: part_num
+        description: "Unique Rebrickable part number."
+        tests:
+          - not_null
+          - unique
+
+      - name: part_cat_id
+        description: "Part category identifier."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_part_categories')
+                field: id
+
+  - name: stg_part_relationships
+    columns:
+      - name: rel_type
+        description: "Type of relationship between the child and parent parts."
+        tests:
+          - not_null
+
+      - name: child_part_num
+        description: "Child part number."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_parts')
+                field: part_num
+
+      - name: parent_part_num
+        description: "Parent part number."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_parts')
+                field: part_num
+
+  - name: stg_elements
+    columns:
+      - name: element_id
+        description: "Unique LEGO element identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: part_num
+        description: "Part number associated with the element."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_parts')
+                field: part_num
+              config:
+                severity: warn
+
+      - name: color_id
+        description: "Color identifier associated with the element."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_colors')
+                field: id
+
+  - name: stg_sets
+    columns:
+      - name: set_num
+        description: "Unique Rebrickable set number."
+        tests:
+          - not_null
+          - unique
+
+      - name: year
+        description: "Release year of the set."
+
+      - name: theme_id
+        description: "Theme identifier associated with the set."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_themes')
+                field: id
+
+      - name: num_parts
+        description: "Number of parts in the set."
+
+  - name: stg_minifigs
+    columns:
+      - name: fig_num
+        description: "Unique Rebrickable minifigure number."
+        tests:
+          - not_null
+          - unique
+
+      - name: num_parts
+        description: "Number of parts used by the minifigure."
+
+  - name: stg_inventories
+    columns:
+      - name: id
+        description: "Unique inventory identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: version
+        description: "Inventory version."
+
+      - name: set_num
+        description: "Set or minifigure identifier associated with the inventory."
+        tests:
+          - not_null
+
+  - name: stg_inventory_parts
+    columns:
+      - name: inventory_id
+        description: "Inventory identifier."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_inventories')
+                field: id
+
+      - name: part_num
+        description: "Part number included in the inventory."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_parts')
+                field: part_num
+
+      - name: color_id
+        description: "Color of the inventory part."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_colors')
+                field: id
+
+      - name: quantity
+        description: "Quantity of the part in the inventory."
+
+      - name: is_spare
+        description: "Indicates whether the part is a spare part."
+
+  - name: stg_inventory_sets
+    columns:
+      - name: inventory_id
+        description: "Inventory identifier."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_inventories')
+                field: id
+
+      - name: set_num
+        description: "Set number included in the inventory."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sets')
+                field: set_num
+
+      - name: quantity
+        description: "Quantity of the set in the inventory."
+
+  - name: stg_inventory_minifigs
+    columns:
+      - name: inventory_id
+        description: "Inventory identifier."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_inventories')
+                field: id
+              config:
+                severity: warn
+
+      - name: fig_num
+        description: "Minifigure number included in the inventory."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_minifigs')
+                field: fig_num
+              config:
+                severity: warn
+
+      - name: quantity
+        description: "Quantity of the minifigure in the inventory."
