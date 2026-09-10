@@ -1,0 +1,24 @@
+version: 2
+
+models:
+
+  - name: int_set_inventories
+    columns:
+      - name: inventory_id
+        description: "Unique inventory identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: inventory_version
+        description: "Inventory version."
+
+      - name: set_num
+        description: "Unique Rebrickable set number."
+        tests:
+          - not_null
+
+      - name: is_latest_version
+        description: "Indicates whether the inventory is the latest version for the set."
+        tests:
+          - not_null
