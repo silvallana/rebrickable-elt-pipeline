@@ -58,7 +58,6 @@ models:
       - name: is_spare
         description: "Indicates whether the part is marked as a spare part."
 
-
   - name: fct_set_minifigs
     description: "Fact table containing minifigures included in LEGO set inventory versions."
 

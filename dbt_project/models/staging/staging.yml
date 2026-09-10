@@ -100,6 +100,9 @@ models:
         description: "Part number associated with the element."
         tests:
           - not_null
+
+          # Some element records reference part_num values that are not
+          # present in the Rebrickable parts catalog.
           - relationships:
               arguments:
                 to: ref('stg_parts')
@@ -230,6 +233,9 @@ models:
         description: "Inventory identifier."
         tests:
           - not_null
+
+          # Some inventory minifigure records reference inventory IDs
+          # that are not present in the inventories source.
           - relationships:
               arguments:
                 to: ref('stg_inventories')
@@ -241,6 +247,9 @@ models:
         description: "Minifigure number included in the inventory."
         tests:
           - not_null
+
+          # Some inventory minifigure records reference fig_num values
+          # that are not present in the Rebrickable minifig catalog.
           - relationships:
               arguments:
                 to: ref('stg_minifigs')
