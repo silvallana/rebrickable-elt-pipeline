@@ -1,0 +1,108 @@
+version: 2
+
+models:
+
+  - name: dim_colors
+    description: "Dimension containing LEGO color attributes."
+
+    columns:
+      - name: id
+        description: "Unique color identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: name
+        description: "Name of the LEGO color."
+
+  - name: dim_elements
+    description: "Dimension mapping LEGO elements to their corresponding parts and colors."
+
+    columns:
+      - name: element_id
+        description: "Unique LEGO element identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: part_num
+        description: "Part number associated with the element."
+
+      - name: color_id
+        description: "Color identifier associated with the element."
+
+  - name: dim_minifigs
+    description: "Dimension containing LEGO minifigure attributes."
+
+    columns:
+      - name: fig_num
+        description: "Unique Rebrickable minifigure number."
+        tests:
+          - not_null
+          - unique
+
+      - name: name
+        description: "Name of the LEGO minifigure."
+
+  - name: dim_parts
+    description: "Dimension containing LEGO parts enriched with part category information."
+
+    columns:
+      - name: part_num
+        description: "Unique Rebrickable part number."
+        tests:
+          - not_null
+          - unique
+
+      - name: name
+        description: "Name of the LEGO part."
+
+      - name: part_cat_id
+        description: "Identifier for the part category."
+
+      - name: part_cat_name
+        description: "Name of the part category."
+  
+  - name: dim_sets
+    description: "Dimension containing LEGO set attributes."
+
+    columns:
+      - name: set_num
+        description: "Unique Rebrickable set number."
+        tests:
+          - not_null
+          - unique
+
+      - name: name
+        description: "Name of the LEGO set."
+
+      - name: year
+        description: "Release year of the LEGO set."
+
+      - name: theme_id
+        description: "Theme identifier associated with the set."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_themes')
+                field: id
+
+      - name: num_parts
+        description: "Number of parts in the LEGO set."
+
+  - name: dim_themes
+    description: "Dimension containing LEGO themes and their parent theme relationships."
+
+    columns:
+      - name: id
+        description: "Unique theme identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: name
+        description: "Name of the LEGO theme."
+
+      - name: parent_theme_id
+        description: "Identifier of the parent theme, when applicable."
