@@ -22,3 +22,67 @@ models:
         description: "Indicates whether the inventory is the latest version for the set."
         tests:
           - not_null
+
+  - name: int_set_inventory_parts
+    columns:
+      - name: set_num
+        description: "Unique Rebrickable set number."
+        tests:
+          - not_null
+
+      - name: inventory_id
+        description: "Inventory identifier."
+        tests:
+          - not_null
+
+      - name: inventory_version
+        description: "Inventory version."
+
+      - name: is_latest_version
+        description: "Indicates whether the inventory is the latest version for the set."
+        tests:
+          - not_null
+
+      - name: part_num
+        description: "Part number included in the inventory."
+        tests:
+          - not_null
+
+      - name: color_id
+        description: "Color of the inventory part."
+        tests:
+          - not_null
+
+      - name: quantity
+        description: "Quantity of the part in the inventory."
+
+      - name: is_spare
+        description: "Indicates whether the part is a spare part."
+
+  - name: int_set_inventory_minifigs
+    columns:
+      - name: set_num
+        description: "Unique Rebrickable set number."
+        tests:
+          - not_null
+
+      - name: inventory_id
+        description: "Inventory identifier."
+        tests:
+          - not_null
+
+      - name: inventory_version
+        description: "Inventory version."
+
+      - name: is_latest_version
+        description: "Indicates whether the inventory is the latest version for the set."
+        tests:
+          - not_null
+
+      - name: fig_num
+        description: "Minifigure number included in the inventory."
+        tests:
+          - not_null
+
+      - name: quantity
+        description: "Quantity of the minifigure in the inventory."
