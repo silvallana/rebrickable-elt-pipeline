@@ -1,0 +1,106 @@
+version: 2
+
+models:
+
+  - name: fct_set_parts
+    description: "Fact table containing parts and colors included in LEGO set inventory versions."
+
+    columns:
+      - name: set_num
+        description: "Set number associated with the inventory."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_sets')
+                field: set_num
+
+      - name: inventory_id
+        description: "Unique inventory identifier."
+        tests:
+          - not_null
+
+      - name: inventory_version
+        description: "Version number of the inventory."
+
+      - name: is_latest_version
+        description: "Indicates whether the inventory is the latest version for the set."
+
+      - name: part_num
+        description: "Part number included in the set inventory."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_parts')
+                field: part_num
+
+      - name: part_name
+        description: "Name of the LEGO part."
+
+      - name: color_id
+        description: "Color identifier associated with the part."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_colors')
+                field: id
+
+      - name: color_name
+        description: "Name of the LEGO color."
+
+      - name: quantity
+        description: "Quantity of the part in the set inventory."
+        tests:
+          - not_null
+
+      - name: is_spare
+        description: "Indicates whether the part is marked as a spare part."
+
+
+  - name: fct_set_minifigs
+    description: "Fact table containing minifigures included in LEGO set inventory versions."
+
+    columns:
+      - name: set_num
+        description: "Set number associated with the inventory."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_sets')
+                field: set_num
+
+      - name: inventory_id
+        description: "Unique inventory identifier."
+        tests:
+          - not_null
+
+      - name: inventory_version
+        description: "Version number of the inventory."
+
+      - name: is_latest_version
+        description: "Indicates whether the inventory is the latest version for the set."
+
+      - name: fig_num
+        description: "Minifigure number included in the set inventory."
+        tests:
+          - not_null
+
+          # Some inventory minifigure records reference fig_num values
+          # that are not present in the Rebrickable minifig catalog.
+          - relationships:
+              arguments:
+                to: ref('dim_minifigs')
+                field: fig_num
+              config:
+                severity: warn
+
+      - name: fig_name
+        description: "Name of the LEGO minifigure."
+
+      - name: quantity
+        description: "Quantity of the minifigure in the set inventory."
+        tests:
+          - not_null
